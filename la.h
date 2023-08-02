@@ -59,6 +59,8 @@ extern "C"
     };
   } vec4_t;
 
+  typedef quat vec4;
+
   typedef struct vec3
   {
     union
