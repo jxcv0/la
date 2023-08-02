@@ -59,7 +59,7 @@ extern "C"
     };
   } vec4_t;
 
-  typedef quat vec4;
+  typedef vec4_t quat;
 
   typedef struct vec3
   {
