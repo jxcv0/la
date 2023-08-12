@@ -16,19 +16,19 @@ set(SOURCES
 )
 
 add_library(${PROJECT_NAME} STATIC ${SOURCES})
-# set_target_properties(${PROJECT_NAME} PROPERTIES LINKER_LANGUAGE C) 
 target_include_directories(${PROJECT_NAME} PUBLIC . )
+target_link_libraries(${PROJECT_NAME} PRIVATE m)
 
 include(CTest)
 
 if (CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
-    include(FetchContent)
-    FetchContent_Declare(
-        googletest
-        GIT_REPOSITORY https://github.com/google/googletest.git
-        GIT_TAG v1.13.0
-    )
-    FetchContent_MakeAvailable(googletest)
-    add_subdirectory(test)
+  include(FetchContent)
+  FetchContent_Declare(
+      googletest
+      GIT_REPOSITORY https://github.com/google/googletest.git
+      GIT_TAG v1.13.0
+  )
+  FetchContent_MakeAvailable(googletest)
+  add_subdirectory(test)
 endif()
 
