@@ -17,7 +17,9 @@ set(SOURCES
 
 add_library(${PROJECT_NAME} STATIC ${SOURCES})
 target_include_directories(${PROJECT_NAME} PUBLIC . )
-target_link_libraries(${PROJECT_NAME} PRIVATE m)
+if (UNIX)
+    target_link_libraries(${PROJECT_NAME} PRIVATE m)
+endif()
 
 include(CTest)
 
