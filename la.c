@@ -5,25 +5,21 @@
 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
- deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
+ * deal in the Software without restriction, including without limitation the
+ * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+ * sell copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
  * The above copyright notice and this permission notice shall be included in
- all
- * copies or substantial portions of the Software.
+ * all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- THE
- * SOFTWARE.
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+ * IN THE SOFTWARE.
  */
 
 #include "la.h"
@@ -43,14 +39,14 @@
 int
 feq (float f1, float f2)
 {
-  return fabs (f1 - f2) < 0.0001f;
+  return fabs (f1 - f2) < FLT_EPSILON;
 }
 
 /**
  * ----------------------------------------------------------------------------
  */
 void
-printm4 (const mat4_t m)
+printm4 (const mat4 m)
 {
   printf ("{ ");
   for (int i = 0; i < 4; i++)
@@ -87,24 +83,24 @@ radians (const float degrees)
 /**
  * ----------------------------------------------------------------------------
  */
-mat4_t
+mat4
 identitym4 (void)
 {
-  mat4_t i = { .elem = { { 1.0f, 0.0f, 0.0f, 0.0f },
-                         { 0.0f, 1.0f, 0.0f, 0.0f },
-                         { 0.0f, 0.0f, 1.0f, 0.0f },
-                         { 0.0f, 0.0f, 0.0f, 1.0f } } };
+  mat4 i = { .elem = { { 1.0f, 0.0f, 0.0f, 0.0f },
+                       { 0.0f, 1.0f, 0.0f, 0.0f },
+                       { 0.0f, 0.0f, 1.0f, 0.0f },
+                       { 0.0f, 0.0f, 0.0f, 1.0f } } };
   return i;
 }
 
 /**
  * ----------------------------------------------------------------------------
  */
-vec3_t
-normalizev3 (const vec3_t v)
+vec3
+normalizev3 (const vec3 v)
 {
   float l = sqrt (dotv3 (v, v));
-  vec3_t n = { .elem = { v.elem[0] / l, v.elem[1] / l, v.elem[2] / l } };
+  vec3 n = { .elem = { v.elem[0] / l, v.elem[1] / l, v.elem[2] / l } };
   return n;
 }
 
@@ -126,7 +122,7 @@ dotvn (const float *v1, const float *v2, size_t n)
  * ----------------------------------------------------------------------------
  */
 float
-dotv3 (const vec3_t v1, const vec3_t v2)
+dotv3 (const vec3 v1, const vec3 v2)
 {
   return dotvn (v1.elem, v2.elem, 3);
 }
@@ -135,7 +131,7 @@ dotv3 (const vec3_t v1, const vec3_t v2)
  * ----------------------------------------------------------------------------
  */
 int
-cmpv3 (const vec3_t v1, const vec3_t v2)
+cmpv3 (const vec3 v1, const vec3 v2)
 {
   for (int i = 0; i < 3; i++)
     {
@@ -151,7 +147,7 @@ cmpv3 (const vec3_t v1, const vec3_t v2)
  * ----------------------------------------------------------------------------
  */
 int
-cmpv2 (const vec2_t v1, const vec2_t v2)
+cmpv2 (const vec2 v1, const vec2 v2)
 {
   for (int i = 0; i < 2; i++)
     {
@@ -167,14 +163,14 @@ cmpv2 (const vec2_t v1, const vec2_t v2)
  * ----------------------------------------------------------------------------
  */
 float
-dotv4 (const vec4_t v1, const vec4_t v2)
+dotv4 (const vec4 v1, const vec4 v2)
 {
   return (v1.x * v2.x) + (v1.y * v2.y) + (v1.z * v2.z) + (v1.w * v2.w);
 }
 /**
  * ----------------------------------------------------------------------------
  */
-vec3_t
+vec3
 crossv3 (const struct vec3 v1, const struct vec3 v2)
 {
   struct vec3 r
@@ -186,10 +182,10 @@ crossv3 (const struct vec3 v1, const struct vec3 v2)
 /**
  * ----------------------------------------------------------------------------
  */
-mat4_t
-productm4 (const mat4_t m1, const mat4_t m2)
+mat4
+productm4 (const mat4 m1, const mat4 m2)
 {
-  mat4_t r = { 0 };
+  mat4 r = { 0 };
   for (size_t i = 0; i < 4; i++)
     {
       for (size_t j = 0; j < 4; j++)
@@ -206,10 +202,10 @@ productm4 (const mat4_t m1, const mat4_t m2)
 /**
  * ----------------------------------------------------------------------------
  */
-vec4_t
-productm4v4 (const mat4_t m, const vec4_t v)
+vec4
+productm4v4 (const mat4 m, const vec4 v)
 {
-  vec4_t res = { 0 };
+  vec4 res = { 0 };
   for (size_t i = 0; i < 4; i++)
     {
       for (size_t j = 0; j < 4; j++)
@@ -223,13 +219,13 @@ productm4v4 (const mat4_t m, const vec4_t v)
 /**
  * ----------------------------------------------------------------------------
  */
-mat4_t
+mat4
 perspective (const float fov, const float aspect_ratio, const float near,
              const float far)
 {
   const float t = tan (fov / 2.0f);
 
-  mat4_t mat = { 0 };
+  mat4 mat = { 0 };
   mat.elem[0][0] = 1.0f / (aspect_ratio * t);
   mat.elem[1][1] = 1.0f / t;
   mat.elem[2][2] = -(far + near) / (far - near);
@@ -241,11 +237,11 @@ perspective (const float fov, const float aspect_ratio, const float near,
 /**
  * ----------------------------------------------------------------------------
  */
-mat4_t
+mat4
 orthographic (const float left, const float right, const float bottom,
               const float top, const float near, const float far)
 {
-  mat4_t mat = identitym4 ();
+  mat4 mat = identitym4 ();
   mat.elem[0][0] = 2.0f / (right - left);
   mat.elem[1][1] = 2.0f / (top - bottom);
   mat.elem[2][2] = -2.0f / (far - near);
@@ -258,17 +254,17 @@ orthographic (const float left, const float right, const float bottom,
 /**
  * ----------------------------------------------------------------------------
  */
-mat4_t
-look_at (const vec3_t eye, const vec3_t ctr, const vec3_t up)
+mat4
+look_at (const vec3 eye, const vec3 ctr, const vec3 up)
 {
-  vec3_t f = { { { ctr.elem[0] - eye.elem[0], ctr.elem[1] - eye.elem[1],
-                   ctr.elem[2] - eye.elem[2] } } };
+  vec3 f = { { { ctr.elem[0] - eye.elem[0], ctr.elem[1] - eye.elem[1],
+                 ctr.elem[2] - eye.elem[2] } } };
 
   f = normalizev3 (f);
-  vec3_t s = normalizev3 (crossv3 (f, up));
-  vec3_t u = crossv3 (s, f);
+  vec3 s = normalizev3 (crossv3 (f, up));
+  vec3 u = crossv3 (s, f);
 
-  mat4_t mat = identitym4 ();
+  mat4 mat = identitym4 ();
 
   mat.elem[0][0] = s.elem[0];
   mat.elem[1][0] = s.elem[1];
@@ -291,10 +287,10 @@ look_at (const vec3_t eye, const vec3_t ctr, const vec3_t up)
 /**
  * ----------------------------------------------------------------------------
  */
-mat4_t
-translate (const mat4_t m, const vec3_t v)
+mat4
+translate (const mat4 m, const vec3 v)
 {
-  mat4_t res = m;
+  mat4 res = m;
   res.elem[3][0] += v.elem[0];
   res.elem[3][1] += v.elem[1];
   res.elem[3][2] += v.elem[2];
@@ -304,15 +300,15 @@ translate (const mat4_t m, const vec3_t v)
 /**
  * ----------------------------------------------------------------------------
  */
-mat4_t
-rotate (const mat4_t m, const vec3_t axis, const float rads)
+mat4
+rotate (const mat4 m, const vec3 axis, const float rads)
 {
   const float c = cos (rads);
   const float s = sin (rads);
 
-  vec3_t a = normalizev3 (axis);
+  vec3 a = normalizev3 (axis);
 
-  mat4_t rot = { 0 };
+  mat4 rot = { 0 };
   rot.elem[0][0] = c + (1.0f - c) * a.elem[0] * a.elem[0];
   rot.elem[0][1] = (1.0f - c) * a.elem[0] * a.elem[1] + s * a.elem[2];
   rot.elem[0][2] = (1.0f - c) * a.elem[0] * a.elem[2] - s * a.elem[1];
@@ -338,10 +334,10 @@ rotate (const mat4_t m, const vec3_t axis, const float rads)
 /**
  * ----------------------------------------------------------------------------
  */
-mat4_t
-scale (const mat4_t m, const vec3_t v)
+mat4
+scale (const mat4 m, const vec3 v)
 {
-  mat4_t sm = identitym4 ();
+  mat4 sm = identitym4 ();
   sm.elem[0][0] = v.elem[0];
   sm.elem[1][1] = v.elem[1];
   sm.elem[2][2] = v.elem[2];
