@@ -37,7 +37,7 @@
  * ----------------------------------------------------------------------------
  */
 int
-feq (float f1, float f2)
+la_feq (float f1, float f2)
 {
   return fabs (f1 - f2) < FLT_EPSILON;
 }
@@ -46,7 +46,7 @@ feq (float f1, float f2)
  * ----------------------------------------------------------------------------
  */
 void
-printm4 (const mat4 m)
+la_printm4 (const la_mat4 m)
 {
   printf ("{ ");
   for (int i = 0; i < 4; i++)
@@ -61,7 +61,7 @@ printm4 (const mat4 m)
  * ----------------------------------------------------------------------------
  */
 void
-printvn (const float *v, size_t n)
+la_printvn (const float *v, size_t n)
 {
   printf ("{ ");
   for (size_t i = 0; i < n; i++)
@@ -75,7 +75,7 @@ printvn (const float *v, size_t n)
  * ----------------------------------------------------------------------------
  */
 float
-radians (const float degrees)
+la_radians (const float degrees)
 {
   return (degrees * M_PI) / 180.0f;
 }
@@ -83,10 +83,10 @@ radians (const float degrees)
 /**
  * ----------------------------------------------------------------------------
  */
-mat4
-identitym4 (void)
+la_mat4
+la_identitym4 (void)
 {
-  mat4 i = { .elem = { { 1.0f, 0.0f, 0.0f, 0.0f },
+  la_mat4 i = { .elem = { { 1.0f, 0.0f, 0.0f, 0.0f },
                        { 0.0f, 1.0f, 0.0f, 0.0f },
                        { 0.0f, 0.0f, 1.0f, 0.0f },
                        { 0.0f, 0.0f, 0.0f, 1.0f } } };
@@ -96,11 +96,11 @@ identitym4 (void)
 /**
  * ----------------------------------------------------------------------------
  */
-vec3
-normalizev3 (const vec3 v)
+la_vec3
+la_normalizev3 (const la_vec3 v)
 {
-  float l = sqrt (dotv3 (v, v));
-  vec3 n = { .elem = { v.elem[0] / l, v.elem[1] / l, v.elem[2] / l } };
+  float l = sqrt (la_dotv3 (v, v));
+  la_vec3 n = { .elem = { v.elem[0] / l, v.elem[1] / l, v.elem[2] / l } };
   return n;
 }
 
@@ -108,7 +108,7 @@ normalizev3 (const vec3 v)
  * ----------------------------------------------------------------------------
  */
 float
-dotvn (const float *v1, const float *v2, size_t n)
+la_dotvn (const float *v1, const float *v2, size_t n)
 {
   float res = 0.0f;
   for (size_t i = 0; i < n; i++)
@@ -122,16 +122,16 @@ dotvn (const float *v1, const float *v2, size_t n)
  * ----------------------------------------------------------------------------
  */
 float
-dotv3 (const vec3 v1, const vec3 v2)
+la_dotv3 (const la_vec3 v1, const la_vec3 v2)
 {
-  return dotvn (v1.elem, v2.elem, 3);
+  return la_dotvn (v1.elem, v2.elem, 3);
 }
 
 /**
  * ----------------------------------------------------------------------------
  */
 int
-cmpv3 (const vec3 v1, const vec3 v2)
+la_cmpv3 (const la_vec3 v1, const la_vec3 v2)
 {
   for (int i = 0; i < 3; i++)
     {
@@ -147,7 +147,7 @@ cmpv3 (const vec3 v1, const vec3 v2)
  * ----------------------------------------------------------------------------
  */
 int
-cmpv2 (const vec2 v1, const vec2 v2)
+la_cmpv2 (const la_vec2 v1, const la_vec2 v2)
 {
   for (int i = 0; i < 2; i++)
     {
@@ -163,17 +163,17 @@ cmpv2 (const vec2 v1, const vec2 v2)
  * ----------------------------------------------------------------------------
  */
 float
-dotv4 (const vec4 v1, const vec4 v2)
+la_dotv4 (const la_vec4 v1, const la_vec4 v2)
 {
   return (v1.x * v2.x) + (v1.y * v2.y) + (v1.z * v2.z) + (v1.w * v2.w);
 }
 /**
  * ----------------------------------------------------------------------------
  */
-vec3
-crossv3 (const struct vec3 v1, const struct vec3 v2)
+la_vec3
+la_crossv3 (const struct la_vec3 v1, const struct la_vec3 v2)
 {
-  struct vec3 r
+  struct la_vec3 r
       = { { { (v1.y * v2.z) - (v1.z * v2.y), (v1.z * v2.x) - (v1.x * v2.z),
               (v1.x * v2.y) - (v1.y * v2.x) } } };
   return r;
@@ -182,10 +182,10 @@ crossv3 (const struct vec3 v1, const struct vec3 v2)
 /**
  * ----------------------------------------------------------------------------
  */
-mat4
-productm4 (const mat4 m1, const mat4 m2)
+la_mat4
+la_productm4 (const la_mat4 m1, const la_mat4 m2)
 {
-  mat4 r = { 0 };
+  la_mat4 r = { 0 };
   for (size_t i = 0; i < 4; i++)
     {
       for (size_t j = 0; j < 4; j++)
@@ -202,10 +202,10 @@ productm4 (const mat4 m1, const mat4 m2)
 /**
  * ----------------------------------------------------------------------------
  */
-vec4
-productm4v4 (const mat4 m, const vec4 v)
+la_vec4
+la_productm4v4 (const la_mat4 m, const la_vec4 v)
 {
-  vec4 res = { 0 };
+  la_vec4 res = { 0 };
   for (size_t i = 0; i < 4; i++)
     {
       for (size_t j = 0; j < 4; j++)
@@ -219,13 +219,13 @@ productm4v4 (const mat4 m, const vec4 v)
 /**
  * ----------------------------------------------------------------------------
  */
-mat4
-perspective (const float fov, const float aspect_ratio, const float near,
+la_mat4
+la_perspective (const float fov, const float aspect_ratio, const float near,
              const float far)
 {
   const float t = tan (fov / 2.0f);
 
-  mat4 mat = { 0 };
+  la_mat4 mat = { 0 };
   mat.elem[0][0] = 1.0f / (aspect_ratio * t);
   mat.elem[1][1] = 1.0f / t;
   mat.elem[2][2] = -(far + near) / (far - near);
@@ -237,11 +237,11 @@ perspective (const float fov, const float aspect_ratio, const float near,
 /**
  * ----------------------------------------------------------------------------
  */
-mat4
-orthographic (const float left, const float right, const float bottom,
+la_mat4
+la_orthographic (const float left, const float right, const float bottom,
               const float top, const float near, const float far)
 {
-  mat4 mat = identitym4 ();
+  la_mat4 mat = la_identitym4 ();
   mat.elem[0][0] = 2.0f / (right - left);
   mat.elem[1][1] = 2.0f / (top - bottom);
   mat.elem[2][2] = -2.0f / (far - near);
@@ -254,17 +254,17 @@ orthographic (const float left, const float right, const float bottom,
 /**
  * ----------------------------------------------------------------------------
  */
-mat4
-look_at (const vec3 eye, const vec3 ctr, const vec3 up)
+la_mat4
+la_look_at (const la_vec3 eye, const la_vec3 ctr, const la_vec3 up)
 {
-  vec3 f = { { { ctr.elem[0] - eye.elem[0], ctr.elem[1] - eye.elem[1],
+  la_vec3 f = { { { ctr.elem[0] - eye.elem[0], ctr.elem[1] - eye.elem[1],
                  ctr.elem[2] - eye.elem[2] } } };
 
-  f = normalizev3 (f);
-  vec3 s = normalizev3 (crossv3 (f, up));
-  vec3 u = crossv3 (s, f);
+  f = la_normalizev3 (f);
+  la_vec3 s = la_normalizev3 (la_crossv3 (f, up));
+  la_vec3 u = la_crossv3 (s, f);
 
-  mat4 mat = identitym4 ();
+  la_mat4 mat = la_identitym4 ();
 
   mat.elem[0][0] = s.elem[0];
   mat.elem[1][0] = s.elem[1];
@@ -278,19 +278,19 @@ look_at (const vec3 eye, const vec3 ctr, const vec3 up)
   mat.elem[1][2] = -f.elem[1];
   mat.elem[2][2] = -f.elem[2];
 
-  mat.elem[3][0] = -dotv3 (s, eye);
-  mat.elem[3][1] = -dotv3 (u, eye);
-  mat.elem[3][2] = dotv3 (f, eye);
+  mat.elem[3][0] = -la_dotv3 (s, eye);
+  mat.elem[3][1] = -la_dotv3 (u, eye);
+  mat.elem[3][2] = la_dotv3 (f, eye);
   return mat;
 }
 
 /**
  * ----------------------------------------------------------------------------
  */
-mat4
-translate (const mat4 m, const vec3 v)
+la_mat4
+la_translate (const la_mat4 m, const la_vec3 v)
 {
-  mat4 res = m;
+  la_mat4 res = m;
   res.elem[3][0] += v.elem[0];
   res.elem[3][1] += v.elem[1];
   res.elem[3][2] += v.elem[2];
@@ -300,15 +300,15 @@ translate (const mat4 m, const vec3 v)
 /**
  * ----------------------------------------------------------------------------
  */
-mat4
-rotate (const mat4 m, const vec3 axis, const float rads)
+la_mat4
+la_rotate (const la_mat4 m, const la_vec3 axis, const float rads)
 {
   const float c = cos (rads);
   const float s = sin (rads);
 
-  vec3 a = normalizev3 (axis);
+  la_vec3 a = la_normalizev3 (axis);
 
-  mat4 rot = { 0 };
+  la_mat4 rot = { 0 };
   rot.elem[0][0] = c + (1.0f - c) * a.elem[0] * a.elem[0];
   rot.elem[0][1] = (1.0f - c) * a.elem[0] * a.elem[1] + s * a.elem[2];
   rot.elem[0][2] = (1.0f - c) * a.elem[0] * a.elem[2] - s * a.elem[1];
@@ -328,16 +328,16 @@ rotate (const mat4 m, const vec3 axis, const float rads)
   // rot.elem[3][2] = m.elem[3][2];
   // rot.elem[3][3] = m.elem[3][3];
 
-  return productm4 (m, rot);
+  return la_productm4 (m, rot);
 }
 
 /**
  * ----------------------------------------------------------------------------
  */
-mat4
-scale (const mat4 m, const vec3 v)
+la_mat4
+la_scale (const la_mat4 m, const la_vec3 v)
 {
-  mat4 sm = identitym4 ();
+  la_mat4 sm = la_identitym4 ();
   sm.elem[0][0] = v.elem[0];
   sm.elem[1][1] = v.elem[1];
   sm.elem[2][2] = v.elem[2];
@@ -346,5 +346,5 @@ scale (const mat4 m, const vec3 v)
   sm.elem[3][2] = m.elem[3][2];
   sm.elem[3][3] = m.elem[3][3];
 
-  return productm4 (m, sm);
+  return la_productm4 (m, sm);
 }

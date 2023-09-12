@@ -2,17 +2,17 @@
 #include <gtest/gtest.h>
 #include <iostream>
 
-TEST (la_tests, feq)
+TEST (la_tests, la_feq)
 {
-  ASSERT_FALSE (feq (1.0f, 1.001f));
-  ASSERT_TRUE (feq (1.0f, 1.0f));
+  ASSERT_FALSE (la_feq (1.0f, 1.001f));
+  ASSERT_TRUE (la_feq (1.0f, 1.0f));
 }
 
-TEST (la_tests, radians) { ASSERT_FLOAT_EQ (radians (3.112f), 0.0543146463f); }
+TEST (la_tests, la_radians) { ASSERT_FLOAT_EQ (la_radians (3.112f), 0.0543146463f); }
 
-TEST (la_tests, identitym4)
+TEST (la_tests, la_identitym4)
 {
-  mat4 m = identitym4 ();
+  la_mat4 m = la_identitym4 ();
   ASSERT_FLOAT_EQ (m.elem[0][0], 1.0f);
   ASSERT_FLOAT_EQ (m.elem[0][1], 0.0f);
   ASSERT_FLOAT_EQ (m.elem[0][2], 0.0f);
@@ -34,10 +34,10 @@ TEST (la_tests, identitym4)
   ASSERT_FLOAT_EQ (m.elem[3][3], 1.0f);
 }
 
-TEST (la_tests, normalizev3)
+TEST (la_tests, la_normalizev3)
 {
-  vec3 v = { .elem = { 5.0f, 2.0f, -3.0f } };
-  v = normalizev3 (v);
+  la_vec3 v = { .elem = { 5.0f, 2.0f, -3.0f } };
+  v = la_normalizev3 (v);
 
   ASSERT_FLOAT_EQ (v.elem[0], 0.8111071056538127f);
   ASSERT_FLOAT_EQ (v.elem[1], 0.3244428422615251f);
@@ -47,11 +47,11 @@ TEST (la_tests, normalizev3)
   ASSERT_FLOAT_EQ (v.z, -0.4866642633922876f);
 }
 
-TEST (la_tests, crossv3)
+TEST (la_tests, la_crossv3)
 {
-  vec3 v1 = { .elem = { 1.0f, 2.0f, 3.0f } };
-  vec3 v2 = { .elem = { 1.0f, 5.0f, 7.0f } };
-  vec3 res = crossv3 (v1, v2);
+  la_vec3 v1 = { .elem = { 1.0f, 2.0f, 3.0f } };
+  la_vec3 v2 = { .elem = { 1.0f, 5.0f, 7.0f } };
+  la_vec3 res = la_crossv3 (v1, v2);
   ASSERT_FLOAT_EQ (res.x, -1.0f);
   ASSERT_FLOAT_EQ (res.y, -4.0f);
   ASSERT_FLOAT_EQ (res.z, 3.0f);
@@ -60,10 +60,10 @@ TEST (la_tests, crossv3)
   ASSERT_FLOAT_EQ (res.elem[2], 3.0f);
 }
 
-TEST (la_tests, productm4)
+TEST (la_tests, la_productm4)
 {
-  mat4 m1 = { 0 };
-  mat4 m2 = { 0 };
+  la_mat4 m1 = { 0 };
+  la_mat4 m2 = { 0 };
 
   float x = 0.0f;
   for (int i = 0; i < 4; i++)
@@ -76,7 +76,7 @@ TEST (la_tests, productm4)
         }
     }
 
-  mat4 result = productm4 (m1, m2);
+  la_mat4 result = la_productm4 (m1, m2);
   ASSERT_FLOAT_EQ (result.elem[0][0], 56.0f);
   ASSERT_FLOAT_EQ (result.elem[0][1], 62.0f);
   ASSERT_FLOAT_EQ (result.elem[0][2], 68.0f);
@@ -95,9 +95,9 @@ TEST (la_tests, productm4)
   ASSERT_FLOAT_EQ (result.elem[3][3], 506.0);
 }
 
-TEST (la_tests, productm4v4)
+TEST (la_tests, la_productm4v4)
 {
-  mat4 m = { 0 };
+  la_mat4 m = { 0 };
 
   float x = 0.0f;
   for (int i = 0; i < 4; i++)
@@ -109,8 +109,8 @@ TEST (la_tests, productm4v4)
         }
     }
 
-  vec4 vec = { .elem = { 1.0f, 2.0f, 3.0f, 4.0f } };
-  vec4 result = productm4v4 (m, vec);
+  la_vec4 vec = { .elem = { 1.0f, 2.0f, 3.0f, 4.0f } };
+  la_vec4 result = la_productm4v4 (m, vec);
   ASSERT_FLOAT_EQ (result.elem[0], 20.0f);
   ASSERT_FLOAT_EQ (result.elem[1], 60.0f);
   ASSERT_FLOAT_EQ (result.elem[2], 100.0f);
@@ -121,23 +121,23 @@ TEST (la_tests, productm4v4)
   ASSERT_FLOAT_EQ (result.w, 140.0f);
 }
 
-TEST (la_tests, dotv3)
+TEST (la_tests, la_dotv3)
 {
-  vec3 v1 = { .elem = { 1.0f, -3.2f, 0.0f } };
-  vec3 v2 = { .elem = { 5.4f, 3.2f, -5.0f } };
-  ASSERT_FLOAT_EQ (dotv3 (v1, v2), -4.84f);
+  la_vec3 v1 = { .elem = { 1.0f, -3.2f, 0.0f } };
+  la_vec3 v2 = { .elem = { 5.4f, 3.2f, -5.0f } };
+  ASSERT_FLOAT_EQ (la_dotv3 (v1, v2), -4.84f);
 }
 
-TEST (la_tests, dotv4)
+TEST (la_tests, la_dotv4)
 {
-  vec4 v1 = { .elem = { 1.0f, -3.2f, 0.0f, 1.0f } };
-  vec4 v2 = { .elem = { 5.4f, 3.2f, -5.0f, -0.5f } };
-  ASSERT_FLOAT_EQ (dotv4 (v1, v2), -5.34f);
+  la_vec4 v1 = { .elem = { 1.0f, -3.2f, 0.0f, 1.0f } };
+  la_vec4 v2 = { .elem = { 5.4f, 3.2f, -5.0f, -0.5f } };
+  ASSERT_FLOAT_EQ (la_dotv4 (v1, v2), -5.34f);
 }
 
-TEST (la_tests, perspective)
+TEST (la_tests, la_perspective)
 {
-  mat4 m = perspective (radians (45.0f), (800.0f / 600.0f), 0.1f, 100.0f);
+  la_mat4 m = la_perspective (la_radians (45.0f), (800.0f / 600.0f), 0.1f, 100.0f);
 
   ASSERT_FLOAT_EQ (m.elem[0][0], 1.81066f);
   ASSERT_FLOAT_EQ (m.elem[0][1], 0.0f);
@@ -160,9 +160,9 @@ TEST (la_tests, perspective)
   ASSERT_FLOAT_EQ (m.elem[3][3], 0.0f);
 }
 
-TEST (la_tests, orthographic)
+TEST (la_tests, la_orthographic)
 {
-  mat4 m = orthographic (0.0f, 800.0f, 600.0f, 0.0f, -1.0f, 1.0f);
+  la_mat4 m = la_orthographic (0.0f, 800.0f, 600.0f, 0.0f, -1.0f, 1.0f);
 
   ASSERT_FLOAT_EQ (m.elem[0][0], 0.0025f);
   ASSERT_FLOAT_EQ (m.elem[0][1], 0.0f);
@@ -182,11 +182,11 @@ TEST (la_tests, orthographic)
   ASSERT_FLOAT_EQ (m.elem[3][3], 1.0f);
 }
 
-TEST (la_tests, translate)
+TEST (la_tests, la_translate)
 {
-  mat4 m = identitym4 ();
-  vec3 v = { .elem = { 0.1f, 0.1f, 0.1f } };
-  m = translate (m, v);
+  la_mat4 m = la_identitym4 ();
+  la_vec3 v = { .elem = { 0.1f, 0.1f, 0.1f } };
+  m = la_translate (m, v);
 
   ASSERT_FLOAT_EQ (m.elem[3][0], 0.1f);
   ASSERT_FLOAT_EQ (m.elem[3][1], 0.1f);
@@ -195,9 +195,9 @@ TEST (la_tests, translate)
 
 TEST (la_tests, rotate1)
 {
-  mat4 m = identitym4 ();
-  vec3 v = { .elem = { 0.0f, 1.0f, 0.0f } };
-  m = rotate (m, v, radians (30.0f));
+  la_mat4 m = la_identitym4 ();
+  la_vec3 v = { .elem = { 0.0f, 1.0f, 0.0f } };
+  m = la_rotate (m, v, la_radians (30.0f));
 
   ASSERT_FLOAT_EQ (m.elem[0][0], 0.86602539f);
   ASSERT_FLOAT_EQ (m.elem[0][1], 0.0f);
@@ -222,12 +222,12 @@ TEST (la_tests, rotate1)
 
 TEST (la_tests, rotate2)
 {
-  vec4 a = { .elem = { 1.0f, 0.0f, 0.0f, 1.0f } };
-  vec3 axis = { .elem = { 0.0f, 0.0f, 1.0f } };
+  la_vec4 a = { .elem = { 1.0f, 0.0f, 0.0f, 1.0f } };
+  la_vec3 axis = { .elem = { 0.0f, 0.0f, 1.0f } };
 
-  mat4 rot = identitym4 ();
-  rot = rotate (rot, axis, radians (90.0f));
-  vec4 res = productm4v4 (rot, a);
+  la_mat4 rot = la_identitym4 ();
+  rot = la_rotate (rot, axis, la_radians (90.0f));
+  la_vec4 res = la_productm4v4 (rot, a);
 
   // TODO: why is the error bad for elem[0] ?
   ASSERT_NEAR (res.elem[0], 0.0f, 0.000001);
@@ -240,13 +240,13 @@ TEST (la_tests, rotate2)
   ASSERT_FLOAT_EQ (res.w, 1.0f);
 }
 
-TEST (la_tests, look_at)
+TEST (la_tests, la_look_at)
 {
-  vec3 eye = { .elem = { 3.0f, 3.0f, 3.0f } };
-  vec3 ctr = { .elem = { 1.0f, 0.0f, 1.0f } };
-  vec3 c = { .elem = { eye.x + ctr.x, eye.y + ctr.y, eye.z + ctr.z } };
-  vec3 up = { .elem = { 0.0f, 1.0f, 0.0f } };
-  mat4 m = look_at (eye, c, up);
+  la_vec3 eye = { .elem = { 3.0f, 3.0f, 3.0f } };
+  la_vec3 ctr = { .elem = { 1.0f, 0.0f, 1.0f } };
+  la_vec3 c = { .elem = { eye.x + ctr.x, eye.y + ctr.y, eye.z + ctr.z } };
+  la_vec3 up = { .elem = { 0.0f, 1.0f, 0.0f } };
+  la_mat4 m = la_look_at (eye, c, up);
   ASSERT_FLOAT_EQ (m.elem[0][0], -0.707107f);
   ASSERT_FLOAT_EQ (m.elem[0][1], 0.0f);
   ASSERT_FLOAT_EQ (m.elem[0][2], -0.707107f);
@@ -265,16 +265,16 @@ TEST (la_tests, look_at)
   ASSERT_FLOAT_EQ (m.elem[3][3], 1.0f);
 }
 
-TEST (la_tests, scale)
+TEST (la_tests, la_scale)
 {
-  mat4 m = { 0 };
+  la_mat4 m = { 0 };
   m.elem[0][2] = 1.032f;
   m.elem[2][1] = 0.032f;
   m.elem[3][0] = 1.0f;
   m.elem[3][2] = 0.888f;
-  vec3 v = { .elem = { 0.0f, 2.0f, 3.0f } };
+  la_vec3 v = { .elem = { 0.0f, 2.0f, 3.0f } };
 
-  mat4 result = scale (m, v);
+  la_mat4 result = la_scale (m, v);
 
   ASSERT_FLOAT_EQ (result.elem[0][0], 0.000000f);
   ASSERT_FLOAT_EQ (result.elem[0][1], 0.000000f);
